@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/habit_tracker_screen.dart';
 import 'screens/articles_screen.dart';
-import 'screens/consultation_screen.dart';
 import 'screens/admin_panel.dart';
-import 'screens/my_consultations_screen.dart'; // استيراد شاشة استشاراتي
-
+import 'screens/capsules_screen.dart';
+// سنقوم بإنشاء هذه الملفات في الخطوات القادمة
+ import 'screens/challenges_screen.dart';
+import 'screens/about_developer_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -16,19 +17,19 @@ void main() async {
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9jdnR3dHpxdnVzZXJsZGd0eHBvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NjU0NDQ4NywiZXhwIjoyMTAyMTIwNDg3fQ.xY2V1XyEkzDKPaWpWC7dqqCtWTbdB-2hjrd6ehXRk3w',
   );
 
-  runApp(const AwarenessApp());
+  runApp(const NaqaaApp());
 }
 
 final supabase = Supabase.instance.client;
 
-class AwarenessApp extends StatelessWidget {
-  const AwarenessApp({super.key});
+class NaqaaApp extends StatelessWidget {
+  const NaqaaApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'توعية للبنات',
+      title: 'نقاء', // تم تغيير الاسم إلى نقاء ✨
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color(0xFF121212),
         colorScheme: const ColorScheme.dark(
@@ -96,7 +97,7 @@ class _AuthSplashScreenState extends State<AuthSplashScreen> {
             SizedBox(height: 20),
             CircularProgressIndicator(color: Color(0xFFB388FF)),
             SizedBox(height: 10),
-            Text('نجهز لكِ مساحتك الآمنة...', style: TextStyle(color: Colors.white70)),
+            Text('نجهز لكِ مساحتك النقية...', style: TextStyle(color: Colors.white70)),
           ],
         ),
       ),
@@ -137,23 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('توعية', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('نقاء', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
         centerTitle: true,
         backgroundColor: const Color(0xFF1E1E2C),
         elevation: 0,
-        actions: [
-          // زر لمتابعة استشاراتي والردود من الأعلى
-          IconButton(
-            icon: const Icon(Icons.history_edu, color: Colors.white),
-            tooltip: 'استشاراتي',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyConsultationsScreen()),
-              );
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -226,15 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 40),
 
-              // أزرار القائمة الرئيسية
-              _buildMainMenuButton(
-                context,
-                title: 'متتبع العادات',
-                icon: Icons.check_circle_outline,
-                gradientColors: const [Color(0xFFFF4081), Color(0xFFB388FF)],
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const HabitTrackerScreen())),
-              ),
-              const SizedBox(height: 15),
+              // أزرار القائمة الرئيسية (تم تحديثها)
               _buildMainMenuButton(
                 context,
                 title: 'مكتبة الوعي',
@@ -243,20 +223,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ArticlesScreen())),
               ),
               const SizedBox(height: 15),
+             _buildMainMenuButton(
+  context,
+  title: 'كبسولات الوعي',
+  icon: Icons.lightbulb_outline,
+  gradientColors: const [Color(0xFFFF9800), Color(0xFFFF5722)],
+  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CapsulesScreen())),
+),
+              const SizedBox(height: 15),
+           _buildMainMenuButton(
+  context,
+  title: 'تحديات التغيير',
+  icon: Icons.flag_outlined,
+  gradientColors: const [Color(0xFF00B4DB), Color(0xFF0083B0)],
+  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChallengesScreen())),
+),// ... الكود السابق لزر متتبع العادات
+              const SizedBox(height: 15),
               _buildMainMenuButton(
                 context,
-                title: 'الدعم النفسي والاستشارات',
-                icon: Icons.favorite,
-                gradientColors: const [Color(0xFF00C6FF), Color(0xFF0072FF)],
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ConsultationScreen())),
+                title: 'متتبع العادات',
+                icon: Icons.check_circle_outline,
+                gradientColors: const [Color(0xFFFF4081), Color(0xFFB388FF)],
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const HabitTrackerScreen())),
               ),
+              
+              const SizedBox(height: 30),
+              const Divider(color: Colors.white24, indent: 30, endIndent: 30),
+              const SizedBox(height: 15),
+              
+              // زر "عن المطور"
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutDeveloperScreen()));
+                },
+                icon: const Icon(Icons.code_rounded, color: Colors.grey),
+                label: const Text('عن مُصمم التطبيق', style: TextStyle(color: Colors.grey, fontSize: 16)),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  backgroundColor: Colors.white.withValues(alpha: 0.05),
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
       ),
     );
   }
-
+            
   void _showPasswordDialog(BuildContext context) {
     final TextEditingController passController = TextEditingController();
     
