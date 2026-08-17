@@ -2,22 +2,22 @@ name: Build Naqaa App APK
 
 on:
   push:
-    branches: [ main ] # يتم البناء تلقائياً عند رفع أي تحديث لفرع main
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. سحب كود المشروع من الجيت هوب
+      # 1. سحب كود المشروع من الجيت هوب (تم تحديثه أيضاً إلى v4 كأفضل ممارسة)
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. إعداد بيئة فلاتر (Flutter) داخل خوادم جيت هوب
+      # 2. إعداد بيئة فلاتر (Flutter)
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.2' # يمكنك تركها على الإصدار المستقر أو تحديثها
+          flutter-version: '3.22.2'
           channel: 'stable'
 
       # 3. جلب الحزم المطلوبة
@@ -28,9 +28,9 @@ jobs:
       - name: Build Android APK
         run: flutter build apk --release
 
-      # 5. رفع ملف الـ APK الناتج ليمكنك تحميله من الموقع
+      # 5. رفع ملف الـ APK الناتج (تم التحديث إلى v4 لتجنب الخطأ)
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: naqaa-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
